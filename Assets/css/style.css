@@ -1,13 +1,47 @@
+main {
+    display: flex;
+    flex-direction: row;
+}
 .hero {
     text-align: center;
     background: rgb(2,0,36);
     background: linear-gradient(270deg, rgba(2,0,36,1) 0%, rgba(5,4,76,1) 0%, rgba(4,72,134,1) 25%);
     color: white;
-    min-height: 75px;
+    min-height: 100px;
 }
 
 .currentWeather {
     min-height: 250px;
     border: 4px solid;
     padding: 50px;
+}
+
+h5 {
+    align-self: center;
+}
+
+.forecast {
+    display: flex;
+    flex-direction: row;
+}
+
+/* MEDIA QUERY FOR SMALLER DESKTOP SCREENS AND SMALLER */
+@media screen and (max-width: 980px) {
+    main {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+}
+
+/* MEDIA QUERY FOR TABLETS AND SMALLER */
+@media screen and (max-width: 768px) {
+}
+
+/* MEDIA QUERY FOR MOBILE PHONES AND SMALLER */
+@media screen and (max-width: 575px) {
+    .forecast {
+        display: flex;
+        flex-direction: column;
+        
+    }
 }

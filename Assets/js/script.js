@@ -42,7 +42,7 @@ var getForecast = function() {
     var apiUrlForcast = "https://api.openweathermap.org/data/2.5/forecast?lat="+ locationLat +"&lon="+ locationLon +"&appid=" + apiKey;
     fetch(apiUrlForcast).then(function(responce) {
         responce.json().then(function(dataforecast) {   
-            console.log(dataforecast);
+            
             // Day 1 of the 5 day forecast
             
             var day1Date=new Date(dataforecast.list[4].dt*1000);  
@@ -154,6 +154,10 @@ var getCurrentWeather = function() {
         });
     });
 };
+
+var getLocation = function() {
+   var locationApi = "http://api.openweathermap.org/geo/1.0/direct?q="+ searchLocation +"&limit=5&appid="+ apiKey
+}
 
 getCurrentWeather();
 getForecast();

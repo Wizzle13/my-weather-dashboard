@@ -17,22 +17,23 @@
     <header class="hero">
         <h1> My Weather Dashboard</h1>
     </header>
-    <main class="d-flex flex-row justify-space-between">
+    <main class="justify-space-between">
         <!-- left side of the page -->
-        <div class="col-12 col-md-2">
-            <div class="card" style="width: 20rem;">
+        <div >
+            <div class="card" style="width: 15rem;">
                 <div class="card-header">
                     Search for a City:
                 </div>
-                <form class="card-body">
+                <form class="card-body d-grid gap-2">
                     <input name="citySearch" id="citySearch" type="text" autofocus="true" class="form-input" placeholder="Mankato" />
+                    
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
               </div>
         </div>
         <!-- right side of the page -->
         <!-- current days weather -->
-        <div class="col-12 col-m-10 ">
+        <div class="col-9 col-m-12">
            <div class = "currentWeather">
                <h3 class = "location"></h3> 
                <div class = "temp"></div>
@@ -41,13 +42,13 @@
                <div class = "uv"></div>
             </div>
             <!-- 5 Day Forcast -->
-            <div class="forecast col-12 col-m-10">
+            <div class="col-12 col-m-12">
                 <div>5-Day Forecast: 
-                    <div class="d-flex flex-row mb-3 justity-content-between">
+                    <div class="forecast mb-3 justify-content-around">
                         <!-- Weather forcast 1 day out -->
-                        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                        <div class="card text-white bg-primary mb-3" style="width: 15rem;">
                             <div class="card-header day1"></div>
-                            <div class="card-body">
+                            <div class="card-body"></div>
                             <h5 class="card-title imgD1"></h5>
                             <div class = "tempD1"></div>
                             <div class = "windD1"></div>
@@ -55,9 +56,9 @@
                         </div>
 
                         <!-- Weather forcast 2 day out -->
-                        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                        <div class="card text-white bg-primary mb-3" style="width: 15rem;">
                             <div class="card-header day2"></div>
-                            <div class="card-body">
+                            <div class="card-body"></div>
                             <h5 class="card-title imgD2"></h5>
                             <div class = "tempD2"></div>
                             <div class = "windD2"></div>
@@ -65,9 +66,9 @@
                         </div>
 
                         <!-- Weather forcast 3 day out -->
-                        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                        <div class="card text-white bg-primary mb-3" style="width: 15rem;">
                             <div class="card-header day3"></div>
-                            <div class="card-body">
+                            <div class="card-body"></div>
                             <h5 class="card-title imgD3"></h5>
                             <div class = "tempD3"></div>
                             <div class = "windD3"></div>
@@ -75,9 +76,9 @@
                         </div>
 
                         <!-- Weather forcast 4 day out -->
-                        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                        <div class="card text-white bg-primary mb-3" style="width: 15rem;">
                             <div class="card-header day4"></div>
-                            <div class="card-body">
+                            <div class="card-body"></div>
                             <h5 class="card-title imgD4"></h5>
                             <div class = "tempD4"></div>
                             <div class = "windD4"></div>
@@ -85,9 +86,9 @@
                         </div>
 
                         <!-- Weather forcast 5 day out -->
-                        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                        <div class="card text-white bg-primary mb-3" style="width: 15rem;">
                             <div class="card-header day5"></div>
-                            <div class="card-body">
+                            <div class="card-body"></div>
                             <h5 class="card-title imgD5"></h5>
                             <div class = "tempD5"></div>
                             <div class = "windD5"></div>
