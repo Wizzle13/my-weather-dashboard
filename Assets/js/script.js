@@ -1,6 +1,8 @@
 var apiKey = "09269494a244652fb1b3f68c87206dae";
 var locationLat = "44.1";
 var locationLon = "-93.9";
+var searchLocation = "Estherville";
+var weatherLocation= "Mankato"
 
 
 // 5 day forcast
@@ -135,7 +137,7 @@ var getCurrentWeather = function() {
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat="+ locationLat +"&lon="+ locationLon +"&appid=" + apiKey;
     fetch(apiUrl).then(function(responce) {
         responce.json().then(function(data) {
-            
+            console.log(data);
             // convert form kelvin to fahernheit
             var tempF = Math.trunc(((data.main.temp - 273.15)*1.8)+ 32);
 
@@ -147,7 +149,7 @@ var getCurrentWeather = function() {
             // console.log(data);
             var img =  "http://openweathermap.org/img/wn/"+ weatherIcon +"@2x.png";
             // displays data on page
-            loctionEl.innerHTML = "Mankato ("+currentDate+") <img src ='" + img + "' width= '60px'>";
+            loctionEl.innerHTML = weatherLocation +" ("+currentDate+") <img src ='" + img + "' width= '60px'>";
             tempEl.innerHTML = "Temp: " + tempF + "F";
             windEl.innerHTML = "Wind: " + windSpeed + " MPH";
             humidityEl.innerHTML = "Humidity: " + humidity + "%";
@@ -156,7 +158,21 @@ var getCurrentWeather = function() {
 };
 
 var getLocation = function() {
-   var locationApi = "http://api.openweathermap.org/geo/1.0/direct?q="+ searchLocation +"&limit=5&appid="+ apiKey
+   var locationApi = "http://api.openweathermap.org/geo/1.0/direct?q="+ searchLocation +"&limit=1&appid="+ apiKey
+    console.log(locationApi);
+    fetch(locationApi).then(function(responce) {
+        responce.json().then(function(locationData) {  
+
+            console.log(locationData);
+            var locationLat = locationData[0].lat;
+            var locationLon = locationData[0].lon;
+            var weatherLocation= locationData[0].name;
+            console.log(locationLat , locationLon , weatherLocation);
+            
+        });
+    });  
+    getCurrentWeather(locationLat, locationLon);
+    getForecast();  
 }
 
 getCurrentWeather();
