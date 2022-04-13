@@ -1,9 +1,8 @@
 var apiKey = "09269494a244652fb1b3f68c87206dae";
-var locationLat = "44.1";
-var locationLon = "-93.9";
-var searchLocation = "Estherville";
-var weatherLocation= "Mankato"
-
+var searchLocation = "portland";
+var locationLat = "";
+var locationLon = "";
+var weatherLocation = "";
 
 // 5 day forcast
 var getForecast = function() {
@@ -133,11 +132,12 @@ var getCurrentWeather = function() {
     var windEl = document.querySelector(".wind");
     var humidityEl = document.querySelector(".humidity");
     var loctionEl = document.querySelector(".location");
+
     // format the open weather api url
     var apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat="+ locationLat +"&lon="+ locationLon +"&appid=" + apiKey;
     fetch(apiUrl).then(function(responce) {
         responce.json().then(function(data) {
-            console.log(data);
+            
             // convert form kelvin to fahernheit
             var tempF = Math.trunc(((data.main.temp - 273.15)*1.8)+ 32);
 
@@ -157,23 +157,31 @@ var getCurrentWeather = function() {
     });
 };
 
+// gets lat and lon based off of searched name
 var getLocation = function() {
    var locationApi = "http://api.openweathermap.org/geo/1.0/direct?q="+ searchLocation +"&limit=1&appid="+ apiKey
-    console.log(locationApi);
+
     fetch(locationApi).then(function(responce) {
         responce.json().then(function(locationData) {  
-
             console.log(locationData);
-            var locationLat = locationData[0].lat;
-            var locationLon = locationData[0].lon;
-            var weatherLocation= locationData[0].name;
+            locationLat = locationData[0].lat;
+            locationLon = locationData[0].lon;
+            weatherLocation = locationData[0].name + ", " +locationData[0].state;
             console.log(locationLat , locationLon , weatherLocation);
-            
+            getCurrentWeather();
+            getForecast();  
         });
     });  
-    getCurrentWeather(locationLat, locationLon);
-    getForecast();  
 }
 
-getCurrentWeather();
-getForecast();
+var getSearchLocation = function(event){
+    event.preventDefault();
+    searchLocation = document.querySelector("input[name='citySearch']").value;
+    console.log(searchLocation);
+    getLocation();
+};
+
+getLocation();
+var searchForm = document.querySelector("#citySearchForm");
+
+searchForm.addEventListener("submit", getSearchLocation);
