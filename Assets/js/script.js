@@ -1,5 +1,7 @@
+var savedLocations = [];
 var apiKey = "09269494a244652fb1b3f68c87206dae";
-var searchLocation = "portland";
+// set the default location.
+var searchLocation = "Mankato";
 var locationLat = "";
 var locationLon = "";
 var weatherLocation = "";
@@ -145,8 +147,6 @@ var getCurrentWeather = function() {
             var humidity = data.main.humidity;
             var weatherIcon = data.weather[0].icon;
             var currentDate = moment().format('L');
-            // console.log(tempF , windSpeed , humidity, weatherIcon);
-            // console.log(data);
             var img =  "http://openweathermap.org/img/wn/"+ weatherIcon +"@2x.png";
             // displays data on page
             loctionEl.innerHTML = weatherLocation +" ("+currentDate+") <img src ='" + img + "' width= '60px'>";
@@ -163,24 +163,68 @@ var getLocation = function() {
 
     fetch(locationApi).then(function(responce) {
         responce.json().then(function(locationData) {  
-            console.log(locationData);
             locationLat = locationData[0].lat;
             locationLon = locationData[0].lon;
             weatherLocation = locationData[0].name + ", " +locationData[0].state;
-            console.log(locationLat , locationLon , weatherLocation);
+            savedLocations.push({weatherLocation});
+            // saveLocation();
+            locationCheck(); 
             getCurrentWeather();
             getForecast();  
         });
     });  
 }
 
+var locationCheck = function(){
+    
+    var match = "no";
+    checkedLocations = JSON.parse(localStorage.getItem("Locations"));
+    
+    if (!checkedLocations){
+        saveLocation();
+    }
+    else {
+        
+        for (var i = 0; i<checkedLocations.length; i++) {
+            console.log(weatherLocation , checkedLocations[i]);
+            if (checkedLocations[i] === weatherLocation){
+                match = "yes";
+                break;
+            }
+        }  
+        if ( match= "no"){
+            saveLocation();
+        };
+    };    
+}
+
 var getSearchLocation = function(event){
     event.preventDefault();
     searchLocation = document.querySelector("input[name='citySearch']").value;
-    console.log(searchLocation);
     getLocation();
 };
 
+var saveLocation = function() {
+    localStorage.setItem("Locations", JSON.stringify(savedLocations));
+    
+};
+
+var loadLocations = function() {
+    savedLocations = JSON.parse(localStorage.getItem("Locations"));
+  
+    // if nothing in localStorage, create a new object to track all task status arrays
+    if (!savedLocations) {
+        savedLocations = [];
+    }
+    searchHistory(savedLocations);
+};
+
+var searchHistory = function(){
+    
+    
+};
+
+loadLocations();
 getLocation();
 var searchForm = document.querySelector("#citySearchForm");
 
