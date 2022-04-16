@@ -6,6 +6,7 @@ var locationLat = "";
 var locationLon = "";
 var weatherLocation = "";
 var uvi ="";
+var weatherHistory = document.querySelector(".history");
 // 5 day forcast
 var getForecast = function() {
     // day 1 var
@@ -147,7 +148,7 @@ var getCurrentWeather = function() {
             var humidity = data.current.humidity;
             var weatherIcon = data.current.weather[0].icon;
             var uvi = data.current.uvi;
-            //uviColor();
+            //sets the color for UV index
             if(uvi < 3) {
                 var UVScale = "uvLow";
             } else if (uvi > 2.9 && uvi <6){
@@ -171,11 +172,6 @@ var getCurrentWeather = function() {
     });
 };
 
-// sets the background color for UV Index
-var uviColor = function() { 
-    console.log(uvi);
-    
-};
 
 // gets lat and lon based off of searched name
 var getLocation = function() {
@@ -226,9 +222,15 @@ var getSearchLocation = function(event){
     getLocation();
 };
 
+var getSearchHistoryLocation = function(event){
+    event.preventDefault();
+    searchLocation = document.querySelector("input[name='citySearch']").value;
+    getLocation();
+}
+
 var saveLocation = function() {
     localStorage.setItem("Locations", JSON.stringify(savedLocations));
-    
+    loadLocations();
 };
 
 var loadLocations = function() {
@@ -238,12 +240,12 @@ var loadLocations = function() {
     if (!savedLocations) {
         savedLocations = [];
     }
-    searchHistory(savedLocations);
-};
-
-var searchHistory = function(){
-    
-    
+ 
+    for (i=0; i < savedLocations.length; i++) {
+        $(weatherHistory).append (
+            "<button type='submit' class='btn btn-primary btn-history' value = " + savedLocations[i].weatherLocation + ">"+ savedLocations[i].weatherLocation +"</button><br/>"
+        );
+    };
 };
 
 loadLocations();
