@@ -5,7 +5,7 @@ var searchLocation = "Mankato";
 var locationLat = "";
 var locationLon = "";
 var weatherLocation = "";
-
+var uvi ="";
 // 5 day forcast
 var getForecast = function() {
     // day 1 var
@@ -134,18 +134,20 @@ var getCurrentWeather = function() {
     var windEl = document.querySelector(".wind");
     var humidityEl = document.querySelector(".humidity");
     var loctionEl = document.querySelector(".location");
+    var uviEl = document.querySelector(".uv");
 
     // format the open weather api url
-    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat="+ locationLat +"&lon="+ locationLon +"&appid=" + apiKey;
+    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat="+ locationLat +"&lon="+ locationLon +"&appid=" + apiKey;
     fetch(apiUrl).then(function(responce) {
         responce.json().then(function(data) {
-            
             // convert form kelvin to fahernheit
-            var tempF = Math.trunc(((data.main.temp - 273.15)*1.8)+ 32);
+            var tempF = Math.trunc(((data.current.temp - 273.15)*1.8)+ 32);
 
-            var windSpeed = data.wind.speed;
-            var humidity = data.main.humidity;
-            var weatherIcon = data.weather[0].icon;
+            var windSpeed = data.current.wind_speed;
+            var humidity = data.current.humidity;
+            var weatherIcon = data.current.weather[0].icon;
+            var uvi = data.current.uvi;
+            //uviColor();
             var currentDate = moment().format('L');
             var img =  "http://openweathermap.org/img/wn/"+ weatherIcon +"@2x.png";
             // displays data on page
@@ -153,8 +155,25 @@ var getCurrentWeather = function() {
             tempEl.innerHTML = "Temp: " + tempF + "F";
             windEl.innerHTML = "Wind: " + windSpeed + " MPH";
             humidityEl.innerHTML = "Humidity: " + humidity + "%";
+            uviEl.innerHTML = "UV Index:  <span  id='uv'> " + uvi + " </span>";
         });
     });
+};
+
+// sets the background color for UV Index
+var uviColor = function() { 
+    console.log(uvi);
+    if(uvi < 3) {
+        document.getElementById("uv").style.background = 'green';
+    } else if (uvi > 2.9 && uvi <6){
+        document.getElementById("uv").style.background = 'yellow';
+    } else if (uvi > 5.9 && uvi <8){
+        document.getElementById("uv").style.background = 'orange';
+    } else if (uvi > 7.9 && uvi <11){
+        document.getElementById("uv").style.background = 'red';
+    } else {
+        document.getElementById("uv").style.background = 'purple';
+    };
 };
 
 // gets lat and lon based off of searched name
@@ -186,13 +205,15 @@ var locationCheck = function(){
     else {
         
         for (var i = 0; i<checkedLocations.length; i++) {
-            console.log(weatherLocation , checkedLocations[i]);
-            if (checkedLocations[i] === weatherLocation){
+            console.log(weatherLocation , checkedLocations[i].weatherLocation);
+            if (checkedLocations[i].weatherLocation === weatherLocation){
                 match = "yes";
+                console.log("Match")
                 break;
-            }
+            };
         }  
-        if ( match= "no"){
+        if ( match == "no"){
+            console.log("No Match")
             saveLocation();
         };
     };    
