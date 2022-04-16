@@ -148,6 +148,17 @@ var getCurrentWeather = function() {
             var weatherIcon = data.current.weather[0].icon;
             var uvi = data.current.uvi;
             //uviColor();
+            if(uvi < 3) {
+                var UVScale = "uvLow";
+            } else if (uvi > 2.9 && uvi <6){
+                var UVScale = "uvModerate";
+            } else if (uvi > 5.9 && uvi <8){
+                var UVScale = "uvHigh";
+            } else if (uvi > 7.9 && uvi <11){
+                var UVScale = "uvVhigh";
+            } else {
+                var UVScale = "uvExtreme";
+            };
             var currentDate = moment().format('L');
             var img =  "http://openweathermap.org/img/wn/"+ weatherIcon +"@2x.png";
             // displays data on page
@@ -155,7 +166,7 @@ var getCurrentWeather = function() {
             tempEl.innerHTML = "Temp: " + tempF + "F";
             windEl.innerHTML = "Wind: " + windSpeed + " MPH";
             humidityEl.innerHTML = "Humidity: " + humidity + "%";
-            uviEl.innerHTML = "UV Index:  <span  id='uv'> " + uvi + " </span>";
+            uviEl.innerHTML = "UV Index:  <span class="+ UVScale +" id='uv'> " + uvi + " </span>";
         });
     });
 };
@@ -163,17 +174,7 @@ var getCurrentWeather = function() {
 // sets the background color for UV Index
 var uviColor = function() { 
     console.log(uvi);
-    if(uvi < 3) {
-        document.getElementById("uv").style.background = 'green';
-    } else if (uvi > 2.9 && uvi <6){
-        document.getElementById("uv").style.background = 'yellow';
-    } else if (uvi > 5.9 && uvi <8){
-        document.getElementById("uv").style.background = 'orange';
-    } else if (uvi > 7.9 && uvi <11){
-        document.getElementById("uv").style.background = 'red';
-    } else {
-        document.getElementById("uv").style.background = 'purple';
-    };
+    
 };
 
 // gets lat and lon based off of searched name
