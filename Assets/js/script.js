@@ -177,6 +177,7 @@ var getCurrentWeather = function() {
 var getLocation = function() {
    var locationApi = "https://api.openweathermap.org/geo/1.0/direct?q="+ searchLocation +"&limit=1&appid="+ apiKey
 
+   
     fetch(locationApi).then(function(responce) {
         responce.json().then(function(locationData) {  
             locationLat = locationData[0].lat;
