@@ -21,28 +21,25 @@ var getForecast = function() {
     var tempDay2 = document.querySelector(".tempD2");
     var windDay2 = document.querySelector(".windD2");
     var humidityDay2 = document.querySelector(".humidityD2");
-
     // day 3 var
     var day3DateEl = document.querySelector(".day3");
     var day3img = document.querySelector(".imgD3");
     var tempDay3 = document.querySelector(".tempD3");
     var windDay3 = document.querySelector(".windD3");
     var humidityDay3 = document.querySelector(".humidityD3");
-
     // day 4 var
     var day4DateEl = document.querySelector(".day4");
     var day4img = document.querySelector(".imgD4");
     var tempDay4 = document.querySelector(".tempD4");
     var windDay4 = document.querySelector(".windD4");
     var humidityDay4 = document.querySelector(".humidityD4");
-   
     // day 5 var
     var day5DateEl = document.querySelector(".day5");
     var day5img = document.querySelector(".imgD5");
     var tempDay5 = document.querySelector(".tempD5");
     var windDay5 = document.querySelector(".windD5");
     var humidityDay5 = document.querySelector(".humidityD5");
-
+    // connects to forcast api to collect data
     var apiUrlForcast = "https://api.openweathermap.org/data/2.5/forecast?lat="+ locationLat +"&lon="+ locationLon +"&appid=" + apiKey;
     fetch(apiUrlForcast).then(function(responce) {
         responce.json().then(function(dataforecast) {   
@@ -57,7 +54,7 @@ var getForecast = function() {
             var windSpeedD1 = dataforecast.list[4].wind.speed;
             var humidityD1 = dataforecast.list[4].main.humidity;
             day1Date = (day1Date.toDateString()); 
-            
+            // displays data in to correct date on index.html
             day1DateEl.innerHTML = day1Date;
             day1img.innerHTML = "<img src='" +imgDay1 + "' alt= '"+ descriptionD1 +"'>";
             tempDay1.innerHTML = "Temp: " + tempD1 + "F";
@@ -73,6 +70,7 @@ var getForecast = function() {
             var tempD2 = Math.trunc(((dataforecast.list[11].main.temp - 273.15)*1.8)+ 32);
             var windSpeedD2 = dataforecast.list[11].wind.speed;
             var humidityD2 = dataforecast.list[11].main.humidity;
+            // displays data in to correct date on index.html
             day2DateEl.innerHTML = day2Date;
             day2img.innerHTML = "<img src='" +imgDay2 + "' alt= '"+ descriptionD2 +"'>";
             tempDay2.innerHTML = "Temp: " + tempD2 + "F";
@@ -89,6 +87,7 @@ var getForecast = function() {
             var tempD3 = Math.trunc(((dataforecast.list[19].main.temp - 273.15)*1.8)+ 32);
             var windSpeedD3 = dataforecast.list[19].wind.speed;
             var humidityD3 = dataforecast.list[19].main.humidity;
+            // displays data in to correct date on index.html
             day3DateEl.innerHTML = day3Date;
             day3img.innerHTML = "<img src='" +imgDay3 + "' alt= '"+ descriptionD3 +"'>";
             tempDay3.innerHTML = "Temp: " + tempD3 + "F";
@@ -104,6 +103,7 @@ var getForecast = function() {
             var tempD4 = Math.trunc(((dataforecast.list[30].main.temp - 273.15)*1.8)+ 32);
             var windSpeedD4 = dataforecast.list[30].wind.speed;
             var humidityD4 = dataforecast.list[30].main.humidity;
+            // displays data in to correct date on index.html
             day4DateEl.innerHTML = day4Date;
             day4img.innerHTML = "<img src='" +imgDay4 + "' alt= '"+ descriptionD4 +"'>";
             tempDay4.innerHTML = "Temp: " + tempD4 + "F";
@@ -119,6 +119,7 @@ var getForecast = function() {
             var tempD5 = Math.trunc(((dataforecast.list[39].main.temp - 273.15)*1.8)+ 32);
             var windSpeedD5 = dataforecast.list[39].wind.speed;
             var humidityD5 = dataforecast.list[39].main.humidity;
+            // displays data in to correct date on index.html
             day5DateEl.innerHTML = day5Date;
             day5img.innerHTML = "<img src='" +imgDay5 + "' alt= '"+ descriptionD5 +"'>";
             tempDay5.innerHTML = "Temp: " + tempD5 + "F";
@@ -143,7 +144,6 @@ var getCurrentWeather = function() {
         responce.json().then(function(data) {
             // convert form kelvin to fahernheit
             var tempF = Math.trunc(((data.current.temp - 273.15)*1.8)+ 32);
-
             var windSpeed = data.current.wind_speed;
             var humidity = data.current.humidity;
             var weatherIcon = data.current.weather[0].icon;
@@ -175,9 +175,8 @@ var getCurrentWeather = function() {
 
 // gets lat and lon based off of searched name
 var getLocation = function() {
-   var locationApi = "https://api.openweathermap.org/geo/1.0/direct?q="+ searchLocation +"&limit=1&appid="+ apiKey
+   var locationApi = "https://api.openweathermap.org/geo/1.0/direct?q="+ searchLocation +"&limit=1&appid="+ apiKey;
 
-   
     fetch(locationApi).then(function(responce) {
         responce.json().then(function(locationData) {  
             locationLat = locationData[0].lat;
@@ -191,17 +190,14 @@ var getLocation = function() {
         });
     });  
 }
-
+// checks to see if location is already being stored
 var locationCheck = function(){
-    
     var match = "no";
     checkedLocations = JSON.parse(localStorage.getItem("Locations"));
-    
     if (!checkedLocations){
         saveLocation();
     }
     else {
-        
         for (var i = 0; i<checkedLocations.length; i++) {
             console.log(weatherLocation , checkedLocations[i].weatherLocation);
             if (checkedLocations[i].weatherLocation === weatherLocation){
@@ -216,24 +212,24 @@ var locationCheck = function(){
         };
     };    
 }
-
+// gets the location that was entered in the search
 var getSearchLocation = function(event){
     event.preventDefault();
     searchLocation = document.querySelector("input[name='citySearch']").value;
     getLocation();
 };
-
+// gets location from search history button and displays current info
 var getSearchHistoryLocation = function(event){
     event.preventDefault();
-    searchLocation = document.querySelector("input[name='citySearch']").value;
+    searchLocation = document.querySelector("submit").value;
     getLocation();
 }
-
+// saves to localstorage
 var saveLocation = function() {
     localStorage.setItem("Locations", JSON.stringify(savedLocations));
     loadLocations();
 };
-
+// gets recent searches from localstorage
 var loadLocations = function() {
     savedLocations = JSON.parse(localStorage.getItem("Locations"));
   
@@ -252,5 +248,6 @@ var loadLocations = function() {
 loadLocations();
 getLocation();
 var searchForm = document.querySelector("#citySearchForm");
-
+var historySearch = document.querySelector("#history");
 searchForm.addEventListener("submit", getSearchLocation);
+historySearch.addEventListener("click", getSearchHistoryLocation);
